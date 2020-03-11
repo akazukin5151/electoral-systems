@@ -1,0 +1,7 @@
+StatsBase
+Distributions
+ProgressMeter
+DataFrames
+Plots
+Test
+InteractiveUtils
