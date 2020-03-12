@@ -24,23 +24,20 @@ function approval(distance_list, a=0, b=1)
     return winner
 end
 
-function unfold!(A::Array{Array{Int64, 1}, 1})::Array{Int64, 2}
-    cols = size(A)[1]
-    rows = size(A[1])[1]
-    a = zeros(Int64, (cols, rows))
-    for i in 1:cols
-        for j in 1:rows
-            a[i, j] = A[i][j]
-        end
+function sorter(distance_list)
+    cols = size(distance_list)[1]
+    rows = size(distance_list)[2]
+    arr = zeros(Int64, (cols, rows))
+    x = collect(eachrow(distance_list))
+    for i in 1:size(arr)[1]
+        arr[i, :] .= sortperm(x[i])
     end
-    return a::Array{Int64, 2}
+    return arr
 end
 
-function borda(distance_list)
-    d_sorted = sortperm.(eachrow(distance_list))
-    unfolded = unfold!(d_sorted)
+function borda(distance_list)    
+    unfolded = sorter(distance_list)
     borda_count = StatsBase.countmap.(eachcol(unfolded))
-
     # columns are candidates, rows are their borda scores to be summed
     res = fill(0, size(candidate_x_coord)[2], size(borda_count)[1])
 
@@ -71,10 +68,7 @@ function score(distance_list)
 end
 
 function irv(distance_list)
-    d_sorted = sortperm.(eachrow(distance_list))
-    unfolded::Array{Int64, 2} = unfold!(d_sorted)
-    #println(unfolded)
-
+    unfolded = sorter(distance_list)
     first_pref = unfolded[:,1]
 
     while true
@@ -83,17 +77,14 @@ function irv(distance_list)
         collectvalues = collect(values(bincount))
         pos_of_max = collectkeys[argmax(collectvalues)]
 
-        #println(collectvalues)
         if bincount[pos_of_max] >= sum(collectvalues)/2
             return pos_of_max
         else
             lowest_cand = collectkeys[argmin(collectvalues)][1]
-            #println(lowest_cand)
             @inbounds for i in 1:size(findall(first_pref.==lowest_cand))[1]
                 row_num = findnext(first_pref.==lowest_cand, i)
                 first_pref[row_num] = unfolded[row_num, 2]
             end
-            #println(first_pref)
         end
     end
 end
@@ -102,10 +93,8 @@ function election(voter_mean_x, voter_mean_y, stdev, number_of_voters, candidate
     v_x = rand(Distributions.Normal(voter_mean_x, stdev), number_of_voters)
     v_y = rand(Distributions.Normal(voter_mean_y, stdev), number_of_voters)
 
-    # DISTANCES
-    #diff_x = v_x .- candidate_x_coord
-    #diff_y = v_y .- candidate_y_coord
-    distance_list = hypot.(v_x .- candidate_x_coord, v_y .- candidate_y_coord)
+    distance_list = hypot.(v_x .- candidate_x_coord, # diff_x
+                           v_y .- candidate_y_coord) # diff_y
 
     fptp_winner::Integer = fptp(distance_list)
     approval_winner::Integer = approval(distance_list)
