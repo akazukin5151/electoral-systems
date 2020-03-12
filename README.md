@@ -28,6 +28,8 @@ Alternatively it can be used as a module called `elections`.
 1. Inside Julia (REPL), type `push!(LOAD_PATH, "path_of_your_folder")`. You may want to add it to your startup.jl as well
 2. In a new .jl file, type `using elections` to start using the functions
 
+To get the "ideal" image shown above, change the `0.1` to `0.01` in [this line](https://github.com/twenty5151/electoral-systems/blob/e3ce899621789d23f357dfb9c43dd855d8e2bcf9/elections.jl#L165). **Warning: will use lots of memory and take minutes.**
+
 # Testing
 
 Unit tests require `Test` and `InteractiveUtils` to be installed. The former doesn't need to be explicitly `using`'ed if you're running the tests on the same Jupyter notebook
