@@ -32,8 +32,8 @@ To get the "ideal" image shown above, change the `0.1` to `0.01` in [this line](
 
 # Testing
 
-Unit tests require `Test` and `InteractiveUtils` to be installed. The former doesn't need to be explicitly `using`'ed if you're running the tests on the same Jupyter notebook
+Unit tests require `Test` and `InteractiveUtils` to be installed. The latter doesn't need to be explicitly `using`'ed if you're running the tests the Jupyter notebook
 
 1. Move elections.jl and testing.jl to the same folder
 2. Inside Julia (REPL), type `push!(LOAD_PATH, "path_of_your_folder")`. You may want to add it to your startup.jl as well
-2. Type `include("path_of_your_folder/testing.jl")`
+2. Type (in Julia REPL), `include("path_of_your_folder/testing.jl")`. The tests will immediately run
