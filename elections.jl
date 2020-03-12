@@ -6,7 +6,7 @@ using DataFrames
 using Plots
 gr()
 
-export fptp, approval, borda, irv, score, election, loop_elections, unfold!, plotter
+export fptp, approval, borda, irv, score, election, loop_elections, sorter, plotter
 
 function fptp(distance_list)
     fptp_votes = argmin.(eachrow(distance_list))
