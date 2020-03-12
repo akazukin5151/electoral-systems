@@ -14,6 +14,9 @@ using elections
 using Test
 using InteractiveUtils
 
+const candidate_x_coord = [0.93 0.79 0.27]
+const candidate_y_coord = [0.49 0.42 0.45]
+const voter_grid = Iterators.product(-2:0.1:2, -2:0.1:2)
 # Note: columns are candidates and rows are each voter
 # The number is the distance between them
 # So [1 2 3] means candidate 3 is furthest from this voter
@@ -38,8 +41,8 @@ end
 end
 
 @testset "Borda" begin
-    @test borda(test_distance_list) ≈ 1 #|| 2 || 3
-    @inferred borda(test_distance_list)
+    @test borda(test_distance_list, candidate_x_coord) ≈ 1 #|| 2 || 3
+    @inferred borda(test_distance_list, candidate_x_coord)
 end
 
 @testset "IRV" begin
@@ -61,6 +64,5 @@ end
 
 @code_warntype borda(test_distance_list)
 # this, irv(), and sorted() shows yellow on Union{Nothing, ...}
-# This is just the loop over the iterator, which returns the next value, or 
-# nothing if at end
+# This is just the loop over the iterator, which returns the next value, or nothing if at end
 end
