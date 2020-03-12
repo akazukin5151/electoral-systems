@@ -1,8 +1,8 @@
-# Electoral Systems
+# Electoral Systems [![Preview](https://img.shields.io/badge/preview-nbconvert-orange)](https://nbviewer.jupyter.org/github/twenty5151/electoral-systems/blob/master/elections.ipynb) [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.txt) [![Julia](https://img.shields.io/badge/made%20with-Julia-a270ba)](https://julialang.org/)
 
 ![Preview](https://raw.githubusercontent.com/twenty5151/electoral-systems/master/Julia%20Ideal.png)
 
-Simulates virtual elections using different electoral systems, with voters and candidates on a 2D plane.
+Simulates virtual elections under different electoral systems. Voters and candidates are distributed on a 2D plane  corresponding to their ideology. For more details read below
 
 Inspired by Ka Yee-Ping's [Voting Simulation Visualizations](http://zesty.ca/voting/sim/) and Nicky Case's [To build a better ballot](https://ncase.me/ballot/)
 
