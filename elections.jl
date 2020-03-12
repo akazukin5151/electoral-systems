@@ -6,7 +6,7 @@ using DataFrames
 using Plots
 gr()
 
-export fptp, approval, borda, irv, score, election, loop_elections, sorter, plotter
+export fptp, approval, sorter, approval_bullet, borda, irv, score, election, loop_elections, plotter
 
 function fptp(distance_list)
     fptp_votes = argmin.(eachrow(distance_list))
@@ -17,7 +17,6 @@ function fptp(distance_list)
 end
 
 function approval(distance_list, a=0, b=1)
-    # TODO: implement probability of bullet voting
     approval_radii = rand(Distributions.LogNormal(0,0.5), size(distance_list)[1])
     approval_list = distance_list .<= approval_radii
     winner = argmax(count.(eachcol(approval_list)))
@@ -35,7 +34,29 @@ function sorter(distance_list)
     return arr
 end
 
-function borda(distance_list)    
+function approval_bullet(distance_list; a=0, b=1, probability=1/3)
+    approval_radii = rand(Distributions.LogNormal(0,0.5), size(distance_list)[1])
+    approval_list = distance_list .<= approval_radii
+    if probability != 0
+        list_size = size(approval_list)[1]
+        unfolded = sorter(distance_list)
+        indices = StatsBase.sample(1:list_size, floor(Int, probability*list_size), replace=false)
+        for i in 1:list_size
+            if i in indices
+                current_row = approval_list[i, :]
+                if sum(current_row) > 1
+                    approval_list[i, :] = BitArray([0, 0, 0])
+                    approval_list[i, argmin(unfolded[i, :])] = true
+                end
+            end
+        end
+    end
+
+    winner = argmax(count.(eachcol(approval_list)))
+    return winner
+end
+
+function borda(distance_list, candidate_x_coord)
     unfolded = sorter(distance_list)
     borda_count = StatsBase.countmap.(eachcol(unfolded))
     # columns are candidates, rows are their borda scores to be summed
@@ -98,7 +119,7 @@ function election(voter_mean_x, voter_mean_y, stdev, number_of_voters, candidate
 
     fptp_winner::Integer = fptp(distance_list)
     approval_winner::Integer = approval(distance_list)
-    borda_winner::Integer = borda(distance_list)
+    borda_winner::Integer = borda(distance_list, candidate_x_coord)
     irv_winner::Integer = irv(distance_list) # There's a bizzare bug where calling score() first will mess up this function's order
     score_winner::Integer = score(distance_list)
 
@@ -108,16 +129,21 @@ end
 function loop_elections(voter_grid, candidate_x_coord, candidate_y_coord, number_of_voters=1000, stdev=1)
     voter_grid_tup_arr = vec(collect(voter_grid))
     voter_grid_size = size(voter_grid_tup_arr)[1]
-    fptp_winner, approval_winner, borda_winner, irv_winner, score_winner = zeros(Integer, voter_grid_size), zeros(Integer, voter_grid_size), zeros(Integer, voter_grid_size), zeros(Integer, voter_grid_size), zeros(Integer, voter_grid_size)
     a, b = zeros(Float64, voter_grid_size), zeros(Float64, voter_grid_size)
 
+    fptp_winner, approval_winner,
+    borda_winner, irv_winner, score_winner =
+        zeros(Integer, voter_grid_size), zeros(Integer, voter_grid_size),
+        zeros(Integer, voter_grid_size), zeros(Integer, voter_grid_size),
+        zeros(Integer, voter_grid_size)
+
     @showprogress for i in 1:voter_grid_size
-        t1::Integer, t2::Integer, t3::Integer, t4::Integer, t5::Integer = election(voter_grid_tup_arr[i][1], voter_grid_tup_arr[i][2], stdev, number_of_voters, candidate_x_coord, candidate_y_coord)
-        fptp_winner[i] = t1::Integer
-        approval_winner[i] = t2::Integer
-        borda_winner[i] = t3::Integer
-        irv_winner[i] = t4::Integer
-        score_winner[i] = t5::Integer
+        fptp_winner[i]::Integer,
+        approval_winner[i]::Integer,
+        borda_winner[i]::Integer,
+        irv_winner[i]::Integer,
+        score_winner[i]::Integer =
+            election(voter_grid_tup_arr[i][1], voter_grid_tup_arr[i][2], stdev, number_of_voters, candidate_x_coord, candidate_y_coord)
 
         a[i] = voter_grid_tup_arr[i][1]
         b[i] = voter_grid_tup_arr[i][2]
@@ -134,7 +160,7 @@ function loop_elections(voter_grid, candidate_x_coord, candidate_y_coord, number
     return vdf
 end
 
-function plotter(df)
+function plotter(df, candidate_x_coord, candidate_y_coord)
     p1 = plot(df.x, df.y, title="FPTP", seriestype=:scatter, color=df.FPTP, palette=[:red, :lightgreen, :blue], msw=0, markersize=2)
     plot!(candidate_x_coord, candidate_y_coord, seriestype=:scatter, palette=[:green, :blue, :red], msw=1, markersize=5, lims=(-2,2))
     p2 = plot(df.x, df.y, title="Approval", seriestype=:scatter, color=df.Approval, palette=[:red, :lightgreen, :blue], msw=0, markersize=2)
@@ -148,15 +174,5 @@ function plotter(df)
     final_plot = plot(p1, p2, p3, p4, p5, legend = false, size=((900,500)))
     return final_plot
 end
-
-const candidate_x_coord = [0.93 0.79 0.27]
-const candidate_y_coord = [0.49 0.42 0.45]
-const voter_grid = Iterators.product(-2:0.1:2, -2:0.1:2)
-looped = loop_elections(voter_grid, candidate_x_coord, candidate_y_coord);
-
-println("Please wait...")
-chart = plotter(looped)
-
-png(chart, "juliachart")
 
 end
