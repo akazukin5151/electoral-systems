@@ -1,4 +1,4 @@
-# Electoral Systems [![Preview](https://img.shields.io/badge/preview-nbconvert-orange)](https://nbviewer.jupyter.org/github/twenty5151/electoral-systems/blob/master/run_elections.ipynb) [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.txt) [![Julia](https://img.shields.io/badge/made%20with-Julia-a270ba)](https://julialang.org/)
+# Electoral Systems [![Preview](https://img.shields.io/badge/preview-nbconvert-orange)](https://nbviewer.jupyter.org/github/twenty5151/electoral-systems/blob/master/run_elections.ipynb) [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.txt) [![status](https://img.shields.io/badge/status-inactive-green)](https://img.shields.io/badge/status-inactive-green) 
 
 ![Preview](https://raw.githubusercontent.com/twenty5151/electoral-systems/master/Julia%20Ideal.png)
 
