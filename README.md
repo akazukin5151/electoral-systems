@@ -1,12 +1,12 @@
-# Electoral Systems [![Preview](https://img.shields.io/badge/preview-nbconvert-orange)](https://nbviewer.jupyter.org/github/twenty5151/electoral-systems/blob/master/run_elections.ipynb) [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.txt) [![status](https://img.shields.io/badge/status-inactive-green)](https://img.shields.io/badge/status-inactive-green) 
+# Electoral Systems [![Preview](https://img.shields.io/badge/preview-nbconvert-orange)](https://nbviewer.jupyter.org/github/akazukin5151/electoral-systems/blob/master/run_elections.ipynb) [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.txt) [![status](https://img.shields.io/badge/status-inactive-green)](https://img.shields.io/badge/status-inactive-green) 
 
-![Preview](https://raw.githubusercontent.com/twenty5151/electoral-systems/master/Julia%20Ideal.png)
+![Preview](https://raw.githubusercontent.com/akazukin5151/electoral-systems/master/Julia%20Ideal.png)
 
 Simulates virtual elections under different electoral systems. Voters and candidates are distributed on a 2D plane  corresponding to their ideology. For more details read below
 
 Inspired by Ka Yee-Ping's [Voting Simulation Visualizations](http://zesty.ca/voting/sim/) and Nicky Case's [To build a better ballot](https://ncase.me/ballot/)
 
-![Approval bullet](https://github.com/twenty5151/electoral-systems/blob/master/approval_bullet_ideal.png)
+![Approval bullet](https://github.com/akazukin5151/electoral-systems/blob/master/approval_bullet_ideal.png)
 
 The above is a preview of approval_bullet(). It simulates when some voters under approval voting cast insincere ballots and bullet vote. That means they only approve their top candidate, even though they might approve of others. The title of each graph corresponds to the proportion of voters that are bullet voting.
 
@@ -36,7 +36,7 @@ You can those functions for other purposes as well:
 2. In a new .jl file, put `using elections` in the top
 3. Just use the functions like `fptp(...)`
 
-To get the "ideal" image shown above, change the `0.1` to `0.01` in [this line](https://github.com/twenty5151/electoral-systems/blob/6a8141f6ee995b46fcc8bfc80a951d82d6c9308f/run_elections.jl#L6). **Warning: will use lots of memory and take minutes.**
+To get the "ideal" image shown above, change the `0.1` to `0.01` in [this line](https://github.com/akazukin5151/electoral-systems/blob/6a8141f6ee995b46fcc8bfc80a951d82d6c9308f/run_elections.jl#L6). **Warning: will use lots of memory and take minutes.**
 
 # Testing
 
