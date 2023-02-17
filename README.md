@@ -1,4 +1,6 @@
-# Electoral Systems [![Preview](https://img.shields.io/badge/preview-nbconvert-orange)](https://nbviewer.jupyter.org/github/akazukin5151/electoral-systems/blob/master/run_elections.ipynb) [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.txt) [![status](https://img.shields.io/badge/status-inactive-green)](https://img.shields.io/badge/status-inactive-green) 
+# Electoral Systems [![Preview](https://img.shields.io/badge/preview-nbconvert-orange)](https://nbviewer.jupyter.org/github/akazukin5151/electoral-systems/blob/master/run_elections.ipynb) [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.txt) [![status](https://img.shields.io/badge/status-inactive-green)](https://img.shields.io/badge/status-inactive-green)
+
+> **Note** also see: Yee diagrams for proportional representation methods: https://github.com/akazukin5151/approportionment
 
 ![Preview](https://raw.githubusercontent.com/akazukin5151/electoral-systems/master/Julia%20Ideal.png)
 
